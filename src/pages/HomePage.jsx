@@ -1,10 +1,13 @@
 import axios from "axios";
 import { useState,useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
 
   //definizione della variabile di stato
   const [ movies, setMovies] = useState([]);
+  const navigate = useNavigate();
+
 
   //funzione che recupera i film attraverso la chiamata ajax
   const fetchMovies = () => {
@@ -31,10 +34,14 @@ const HomePage = () => {
                 <img src={movie.image} className="card-img-top" alt={movie.title} />
                   <div className="card-body">
                     <h5 className="card-title">{movie.title}</h5>
-                    <p className="card-text">{movie.director}</p>
                     <p className="card-text">{movie.genre}</p>
-                    <p className="card-text">{movie.release_year}</p>
-                    <p className="card-text">{movie.abstract}</p>
+                    <button 
+                     type="button" 
+                     className="btn btn-primary"
+                     onClick={() => navigate(`/movies/${movie.id}`)}
+                     >
+                      Dettaglio Film
+                    </button>
                   </div>
                </div>
             </div>
