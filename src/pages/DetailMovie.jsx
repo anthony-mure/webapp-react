@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import ReviewForm from "../components/ReviewForm";
 import axios from "axios";
 
 const DetailMovie = () => {
@@ -88,6 +89,9 @@ const DetailMovie = () => {
       ) : (
        <div className="alert alert-secondary">Nessuna recensione disponibile</div>
      )}
+    </div>
+    <div>
+      <ReviewForm movieId={id} reloadReviews={fetchMovie}/> 
     </div>
    </div> 
   </>
