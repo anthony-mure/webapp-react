@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -6,6 +6,16 @@ const DetailMovie = () => {
 
   const { id } = useParams();
   const [movie, setMovie] = useState({});
+  const navigate = useNavigate();
+  const currentId = parseInt(id);
+
+  const goToPrev = () => {
+    if (currentId > 1) navigate(`/movies/${currentId - 1}`);
+  };
+
+  const goToNext = () => {
+    navigate(`/movies/${currentId + 1}`);
+  };
 
   const fetchMovie = () => {
     axios.get(`http://localhost:3000/movies/${id}`)
@@ -18,6 +28,7 @@ const DetailMovie = () => {
 
   };
 
+  
   useEffect(fetchMovie, [id]);
 
   return (
@@ -37,6 +48,22 @@ const DetailMovie = () => {
             <p className="card-text"><strong>Trama:</strong> {movie.abstract}</p>
             <p className="card-text"><strong>Voto medio:</strong> {movie.avarage_vote}</p>
           </div>
+           <div className="d-flex justify-content-between px-4 mb-4">
+              <button
+                className="btn btn-outline-primary"
+                onClick={goToPrev}
+                disabled={currentId <= 1}
+               >
+                ← Film precedente
+              </button>
+              <button
+                 className="btn btn-outline-primary"
+                 onClick={goToNext}
+                >
+                Film successivo →
+               </button>
+            </div>
+
         </div>
       </div>
     
