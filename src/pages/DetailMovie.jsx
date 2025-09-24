@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import GlobalContext from "../contexts/globalContext";
 import ReviewForm from "../components/ReviewForm";
 import axios from "axios";
 
@@ -10,6 +11,8 @@ const DetailMovie = () => {
   const navigate = useNavigate();
   const currentId = parseInt(id);
 
+  const { setIsLoading } = useContext(GlobalContext);
+
   const goToPrev = () => {
     if (currentId > 1) navigate(`/movies/${currentId - 1}`);
   };
@@ -19,10 +22,14 @@ const DetailMovie = () => {
   };
 
   const fetchMovie = () => {
+
+    setIsLoading(true);
+
     axios.get(`http://localhost:3000/movies/${id}`)
       .then((resp) => {
 
         setMovie(resp.data);
+        setIsLoading(false);
 
       })
       .catch((err) => console.log(err));

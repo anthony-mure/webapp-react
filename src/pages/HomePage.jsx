@@ -1,19 +1,25 @@
 import axios from "axios";
-import { useState,useEffect } from "react";
+import { useState,useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import GlobalContext from "../contexts/globalContext";
 
 const HomePage = () => {
 
   //definizione della variabile di stato
   const [ movies, setMovies] = useState([]);
-  const navigate = useNavigate();
 
+  const {setIsLoading} = useContext(GlobalContext);
+
+  const navigate = useNavigate();
 
   //funzione che recupera i film attraverso la chiamata ajax
   const fetchMovies = () => {
 
+    setIsLoading(true);
+
     axios.get('http://localhost:3000/movies').then((resp) =>{
       setMovies(resp.data);
+      setIsLoading(false);
     })
     .catch((err) => console.log(err))
   };
